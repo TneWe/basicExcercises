@@ -11,7 +11,6 @@ public:
 		y = 0;
 		z = 0;
 	}
-
 	Vector3(int xPos, int yPos, int zPos)
 	{
 		x = xPos;
@@ -19,10 +18,13 @@ public:
 		z = zPos;
 		floatingMember = 33.33f;
 	}
-
-	~Vector3()
+	Vector3 operator+(Vector3 second)
 	{
-		std::cout << "Unistio sam se!" << std::endl;
+		Vector3 result;
+		result.x = x + second.x;
+		result.y = y + second.y;
+		result.z = z + second.z;
+		return result;
 	}
 
 	Vector3 operator-(Vector3 second)
@@ -52,186 +54,130 @@ public:
 		return result;
 	}
 
-	Vector3 operator+(Vector3 second)
+	Vector3 operator!=(Vector3 second)
 	{
 		Vector3 result;
-		result.x = x + second.x;
-		result.y = y + second.y;
-		result.z = z + second.z;
+		result.x = x != second.x;
+		result.y = y != second.y;
+		result.z = z != second.z;
 		return result;
 	}
 
-	bool operator==(Vector3 second)
+	Vector3 operator<=(Vector3 second)
 	{
-		if (x == second.x && y == second.y && z == second.z)
-		{
-			return true;
-		}
-		return false;
+		Vector3 result;
+		result.x = x <= second.x;
+		result.y = y <= second.y;
+		result.z = z <= second.z;
+		return result;
+	}
+	void print()
+	{
+		std::cout << "[" << x << " " << y << " " << z << "]";
 	}
 
-	bool operator!=(Vector3 second)
-	{
-		if (x == second.x && y == second.y && z == second.z)
-		{
-			return false;
-		}
-		return true;
-	}
 
-	// overloadat operatore -, *, /, !=, ==
 
+	//overload operatore -,*,/,;!=
 	int x, y, z;
-
 	int SumOfCoordinates()
 	{
 		return x + y + z;
 	}
-
-	void Print()
-	{
-		std::cout << "[" << x << ", " << y << ", " << z << "]";
-	}
-
 	float GetFloatingMember()
 	{
 		return floatingMember;
 	}
+	~Vector3()
+	{
+		std::cout << "unistio sam se" << std::endl;
 
-	// DZ:
-	// Overloadat operatore ++, --, *=, /=
-	// za hrabre: Overloadat cout i cin
+	}
+	friend std::ostream & operator <<(std::ostream&output, const  Vector3 &value) // overload outputa
+	{
+		output << "[" << value.x << ", " << value.y << ", " << value.z << "]";
+		return output;
+	}
 
-	// friend std::ostream operator<<() {}
+	friend std::istream &operator >>(std::istream &input, Vector3 &value) // overload inputa 
+	{
+		bool noerror = false;
+		while (!noerror)
+		{
+			std::cout << "enter value x: ";
+			if (!(input >> value.x))
+			{
+				noerror = false;
+			}
+			else
+			{
+				noerror = true;
+			}
+			std::cout << std::endl;
+			input.clear();
+			input.ignore(10000, '\n');
+		}
+
+		while (!noerror) //nema potrebe deklarirat noerrore jer se oni resetiraju prilikom promjene iz x u y etc.
+		{
+			std::cout << "enter value y: ";
+			if (!(input >> value.y))
+			{
+				noerror = false;
+			}
+			else
+			{
+				noerror = true;
+			}
+			std::cout << std::endl;
+			input.clear();
+			input.ignore(10000, '\n');
+		}
+		while (!noerror)
+		{
+			std::cout << "enter value z: ";
+			if (!(input >> value.z))
+			{
+				noerror = false;
+			}
+			else
+			{
+				noerror = true;
+			}
+			std::cout << std::endl;
+			input.clear();
+			input.ignore(10000, '\n');
+		}
+
+		return input;
+	}
+
 private:
 	float floatingMember;
+
 };
 
-class Vector3f
+void iterarate(int*arr)
 {
-public:
-	Vector3f()
-	{
-		x = 0;
-		y = 0;
-		z = 0;
-	}
 
-	Vector3f(float xPos, float yPos, float zPos)
-	{
-		x = xPos;
-		y = yPos;
-		z = zPos;
-		floatingMember = 33.33f;
-	}
-
-	~Vector3f()
-	{
-		std::cout << "Unistio sam se!" << std::endl;
-	}
-
-	Vector3f operator-(Vector3f second)
-	{
-		Vector3f result;
-		result.x = x - second.x;
-		result.y = y - second.y;
-		result.z = z - second.z;
-		return result;
-	}
-
-	Vector3f operator*(Vector3f second)
-	{
-		Vector3f result;
-		result.x = x * second.x;
-		result.y = y * second.y;
-		result.z = z * second.z;
-		return result;
-	}
-
-	Vector3f operator/(Vector3f second)
-	{
-		Vector3f result;
-		result.x = x / second.x;
-		result.y = y / second.y;
-		result.z = z / second.z;
-		return result;
-	}
-
-	Vector3f operator+(Vector3f second)
-	{
-		Vector3f result;
-		result.x = x + second.x;
-		result.y = y + second.y;
-		result.z = z + second.z;
-		return result;
-	}
-
-	bool operator==(Vector3f second)
-	{
-		if (x == second.x && y == second.y && z == second.z)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	bool operator!=(Vector3f second)
-	{
-		if (x == second.x && y == second.y && z == second.z)
-		{
-			return false;
-		}
-		return true;
-	}
-
-
-	// overloadat operatore -, *, /, !=, ==
-
-	float x, y, z;
-
-	int SumOfCoordinates()
-	{
-		return x + y + z;
-	}
-
-	void Print()
-	{
-		std::cout << "[" << x << ", " << y << ", " << z << "]";
-	}
-
-	float GetFloatingMember()
-	{
-		return floatingMember;
-	}
-
-	// DZ:
-	// Overloadat operatore ++, --, *=, /=
-	// za hrabre: Overloadat cout i cin
-
-	// friend std::ostream operator<<() {}
-private:
-	float floatingMember;
-};
-
-void iterate(int *arr)
-{
 	for (int i = 0; i < 3; i++)
 	{
-		std::cout << arr << std::endl;
+		std::cout << *arr << std::endl;
 		arr++;
 	}
-	// std::cout << i << std::endl; - i is out of scope and no longer exists!
-}
+	//std::cout << i << std::endl; i je izvan scopea i ne postoji više!
 
+}
 int main()
 {
+
 	int number = 10;
 	int number2 = 3;
 	int* ref = &number;
-	int** doubleRef = &ref;
+	int **doubleRef = &ref;
 
-	float fNumber = 10.5f;
-	float* fRef = &fNumber;
+	float fnumber = 10.5f;
+	float*fRef = &fnumber;
 	*ref = 30;
 	int& refference = number;
 	refference = number2;
@@ -239,52 +185,69 @@ int main()
 	int* ptr = &number;
 	std::cout << *ptr << std::endl;
 
+
 	ptr = &number2;
-	std::cout << *ptr << std::endl;
 
-	Vector3 person = Vector3(10, 20, 30);
+	Vector3 person = Vector3(10, 20, 50);
 
-
-	std::cout << "Sum of person coordinates: " << person.SumOfCoordinates() << std::endl;
-	std::cout << "Person's coordinate X: " << person.x << std::endl;
-	std::cout << "Person's coordinate Y: " << person.y << std::endl;
-	std::cout << "Person's coordinate Z: " << person.z << std::endl;
-
-	std::cout << "Person's floatingMember value is: " << person.GetFloatingMember() << std::endl;
+	std::cout << "sum of person kordinates" << person.SumOfCoordinates() << std::endl;
+	std::cout << "person kordinates x " << person.x << std::endl;
+	std::cout << "person y" << person.y << std::endl;
+	std::cout << " person kordinates z " << person.z << std::endl;
+	std::cout << "Person s floatingMember value is :" << person.GetFloatingMember() << std::endl;
 
 
-	void* personPtr = &person;
+
+	void*personPtr = &person;
 	std::cout << ref << std::endl;
 	std::cout << ptr << std::endl;
 	std::cout << *ref << std::endl;
 
-	int arr[] = { 1, 7, 3 };
+	int arr[] = { 1,7,3 };
+	iterarate(arr);
+	std::cout << "double reference" << std::endl;
+	std::cout << "doubble reference adress " << doubleRef << std::endl;
+	std::cout << "double reference value " << *doubleRef << std::endl;
+	std::cout << "Reference adress " << ref << std::endl;
+	std::cout << "reference value " << *ref << std::endl;
+	std::cout << "double reference value: " << **doubleRef << std::endl;
 
-	iterate(arr);
-
-	std::cout << "Double refference: " << std::endl;
-	std::cout << "Double refference address: " << doubleRef << std::endl;
-	std::cout << "Double refference value: " << *doubleRef << std::endl;
-	std::cout << "Refference address: " << ref << std::endl;
-	std::cout << "Refference value: " << *ref << std::endl;
-	std::cout << "Double refference reffence value: " << **doubleRef << std::endl;
 
 	{
 		Vector3 position = Vector3(1, 2, 3);
 	}
-	std::cout << "position vector je van scopea!" << std::endl;
 
-	Vector3 playerPosition = Vector3(35, 28, 13);
+	Vector3 playerPosition = Vector3(35, 28, 16);
 	Vector3 playerTwoPosition = Vector3(100, 100, 100);
 
-	Vector3 sum = playerPosition + playerTwoPosition;
+	Vector3  sum = playerPosition + playerTwoPosition;
+	Vector3 odd = playerPosition - playerTwoPosition;
+	Vector3 mul = playerPosition * playerTwoPosition;
+	Vector3 div = playerPosition * playerTwoPosition;
 
-	if (playerPosition == playerTwoPosition)
-	{
 
-	}
 
-	//std::cout << sum << std::endl;
+	std::cout << "vrijednost sum vectora je :";
+	sum.print();
+	std::cout << std::endl;
 
-	system("pause");
+	std::cout << "vrijednost odd vectora je :";
+	odd.print();
+	std::cout << std::endl;
+
+	std::cout << "vrijednost mul vectora je :";
+	mul.print();
+	std::cout << std::endl;
+
+	std::cout << "vrijednost div vectora je :";
+	div.print();
+	std::cout << std::endl;
+
+
+	std::cout << "position vector je van scopea" << std::endl;
+	std::cin >> sum;
+	std::cout << sum << std::endl;
+
+	std::cin.get();
+
 }
